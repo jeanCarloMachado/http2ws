@@ -10,6 +10,14 @@
 var exampleSocket = new WebSocket("ws://localhost:8765");
 exampleSocket.onopen = function (event) {
     console.log('opened')
+    var url = new URL(document.URL);
+    recipient = url.searchParams.get("recipient");
+
+    recipient = recipient || '666'
+
+    console.log(recipient)
+
+    exampleSocket.send('{"recipient": "'+recipient+'"}');
 };
 exampleSocket.onmessage = function (event) {
   console.log(event.data)

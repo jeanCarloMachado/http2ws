@@ -6,6 +6,7 @@ from signal import *
 from config import named_pipe_path
 import threading
 from queue import Queue
+import json
 
 if not os.path.exists(named_pipe_path):
     try:
@@ -16,31 +17,49 @@ if not os.path.exists(named_pipe_path):
 
 
 my_queue = Queue(maxsize=0)
-connected = set()
+connected_list = []
+identified_map = dict()
+
 
 async def connectionHandler(websocket, path):
-    global connected
+    global connected_list
+    global identified_map
 
-    connected.add(websocket)
+    connected_list.append(websocket)
+
+    message = await websocket.recv()
+    decoded_message = json.loads(message)
+    identified_map[decoded_message['recipient']] =  connected_list.index(websocket)
+
+    print ("Add to connected  list index: " + str(connected_list.index(websocket)))
     try:
-        await asyncio.sleep(10)
+        await asyncio.sleep(3600 * 24)
     finally:
-        connected.remove(websocket)
+        connected_list.remove(websocket)
 
 
 def read_file_callback():
     tmp = fifo.read()
     if tmp != "":
-        my_queue.put(tmp)
-
+        data = json.loads(tmp)
+        my_queue.put(data)
 
 async def send_messages():
-    global connected
+    global connected_list
+    global identified_map
     while True:
         message = my_queue.get()
-        for i in connected:
+        if message['recipient'] in identified_map:
+            connected_index = identified_map[message['recipient']]
+            print ("Connected  list index: " + str(connected_index))
+            i = connected_list[connected_index]
             if i.state_name == 'OPEN':
-                await i.send(message)
+                data = {"content": message['content']}
+                await i.send(json.dumps(data))
+
+        else:
+            print ("No one listening to recipient: " + message['recipient'])
+
 
 
 def websocket_thread():
