@@ -7,6 +7,7 @@ from config import named_pipe_path
 import threading
 from queue import Queue
 import json
+import time
 
 if not os.path.exists(named_pipe_path):
     try:
@@ -39,6 +40,7 @@ async def connectionHandler(websocket, path):
 
 
 def read_file_callback():
+    time.sleep(0.2)
     tmp = fifo.read()
     if tmp != "":
         data = json.loads(tmp)
