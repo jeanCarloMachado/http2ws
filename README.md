@@ -1,5 +1,6 @@
-# Web2Sock
+# http2ws
 
+A message subscription system that pushes messages in http and deliver through websocket - ideal for notifications systems
 
 ## Send a new message
 
