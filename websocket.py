@@ -3,13 +3,13 @@ import websockets
 import sys
 import os, tempfile
 from signal import *
-from fifo import *
+from config import named_pipe_path
 import threading
 from queue import Queue
 
-if not os.path.exists(filename):
+if not os.path.exists(named_pipe_path):
     try:
-        os.mkfifo(filename)
+        os.mkfifo(named_pipe_path)
     except OSError as oe:
         if oe.errno != errno.EEXIST:
             raise
@@ -23,11 +23,8 @@ async def connectionHandler(websocket, path):
 
     connected.add(websocket)
     try:
-        # Implement logic here.
-        await asyncio.wait([ws.send("Hello!") for ws in connected])
         await asyncio.sleep(10)
     finally:
-        # Unregister.
         connected.remove(websocket)
 
 
@@ -46,35 +43,34 @@ async def send_messages():
                 await i.send(message)
 
 
-
-
-def socket_thread():
+def websocket_thread():
     second_loop = asyncio.new_event_loop()
     start_server = websockets.serve(connectionHandler, 'localhost', 8765)
     second_loop.run_until_complete(start_server)
     second_loop.run_forever()
     return
 
-def dispatch_thread():
+def message_dispatch_thread():
     third_loop = asyncio.new_event_loop()
     third_loop.run_until_complete(send_messages())
     third_loop.run_forever()
     return
 
 threads = []
-t = threading.Thread(target=socket_thread)
+t = threading.Thread(target=websocket_thread)
 threads.append(t)
-t2 = threading.Thread(target=dispatch_thread)
-threads.append(t2)
 t.start()
+t2 = threading.Thread(target=message_dispatch_thread)
+threads.append(t2)
 t2.start()
+
 loop = asyncio.get_event_loop()
-fifo = open(filename, 'r', 1)
+fifo = open(named_pipe_path, 'r', 1)
 loop.add_reader(fifo.fileno(), read_file_callback)
 loop.run_forever()
 
 def clean(*args):
-    os.remove(filename)
+    os.remove(named_pipe_path)
     sys.exit(0)
 
 for sig in (SIGABRT, SIGILL, SIGINT, SIGSEGV, SIGTERM):

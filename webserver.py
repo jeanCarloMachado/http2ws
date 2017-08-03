@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 import json
 
-from fifo import *
+from config import named_pipe_path
 
 app = Flask(__name__)
 app.debug=True
@@ -14,7 +14,7 @@ def hello_world():
 def register():
     body=request.json
 
-    fifo = open(filename, 'w', 1)
+    fifo = open(named_pipe_path, 'w', 1)
     fifo.write(body['content'])
     fifo.flush()
     fifo.close()
