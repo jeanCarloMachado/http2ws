@@ -22,5 +22,20 @@ exampleSocket.onmessage = function (event) {
   console.log(event.data)
 }
 
-
 ```
+
+## Configuring
+
+By default the webserver port is 5000  and websocket port is 8765
+you can change it by setting the following variables
+
+```sh
+HTTP2WS_WEBSERVER_PORT=5001 python webserver.py
+HTTP2WS_WEBSOCKET_PORT=8764 python websocket.py
+```
+
+## License
+
+The content of this project itself is licensed under the Creative
+Commons Attribution 3.0 license, and the underlying source code used to
+format and display that content is licensed under the MIT license.

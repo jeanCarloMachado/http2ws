@@ -3,7 +3,7 @@ import websockets
 import sys
 import os, tempfile
 from signal import *
-from config import named_pipe_path
+from config import named_pipe_path, websocket_port
 import threading
 from queue import Queue
 import json
@@ -66,7 +66,7 @@ async def send_messages():
 
 def websocket_thread():
     second_loop = asyncio.new_event_loop()
-    start_server = websockets.serve(connectionHandler, 'localhost', 8765)
+    start_server = websockets.serve(connectionHandler, 'localhost', websocket_port)
     second_loop.run_until_complete(start_server)
     second_loop.run_forever()
     return
