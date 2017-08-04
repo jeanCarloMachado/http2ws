@@ -1,6 +1,6 @@
 # http2ws
 
-A message subscription system that pushes messages in http and deliver to subscribed websocket clients. Ideal for notifications systems. Where the client is the browser and you have multiple api's sending messages.
+A simple and fast message subscription system that pushes messages in http and deliver to subscribed websocket clients. Ideal for notifications systems. Where the client is the browser and you have multiple api's sending messages.
 
 ## Send a new message
 
