@@ -9,6 +9,8 @@ from queue import Queue
 import json
 import time
 
+debug_mode = (os.getenv('debug') is not None) or False
+
 if not os.path.exists(named_pipe_path):
     try:
         os.mkfifo(named_pipe_path)
@@ -31,8 +33,8 @@ async def connectionHandler(websocket, path):
     message = await websocket.recv()
     decoded_message = json.loads(message)
     identified_map[decoded_message['recipient']] =  connected_list.index(websocket)
-
-    print ("Add to connected  list index: " + str(connected_list.index(websocket)))
+    if debug_mode:
+        print ("Add to connected  list index: " + str(connected_list.index(websocket)) + " litening to recipient: " + decoded_message['recipient']) 
     try:
         await asyncio.sleep(3600 * 24)
     finally:
@@ -53,14 +55,16 @@ async def send_messages():
         message = my_queue.get()
         if message['recipient'] in identified_map:
             connected_index = identified_map[message['recipient']]
-            print ("Connected  list index: " + str(connected_index))
+            if debug_mode:
+                print ("Connected  list index: " + str(connected_index))
             i = connected_list[connected_index]
             if i.state_name == 'OPEN':
                 data = {"content": message['content']}
                 await i.send(json.dumps(data))
 
         else:
-            print ("No one listening to recipient: " + message['recipient'])
+            if debug_mode:
+                print ("No one listening to recipient: " + message['recipient'])
 
 
 

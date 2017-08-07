@@ -8,10 +8,9 @@ example: clean
 	${BROWSER} http://localhost:8001
 
 container_build:
-	docker build . -t http2ws
-deploy:
-	docker push compufour/hooks
-
+	docker build . -t jeancarlomachado/http2ws
+deploy: container_build
+	docker push jeancarlomachado/http2ws
 clean:
 	-pkill -f websocket.py
 	-pkill -f webserver.py

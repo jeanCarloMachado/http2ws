@@ -15,7 +15,7 @@ curl -X POST http://localhost:5000/send -H "Content-Type: application/json" -d '
 ```sh
 var exampleSocket = new WebSocket("ws://localhost:8765");
 exampleSocket.onopen = function (event) {
-
+    //list every message to the recipient gandalf
     exampleSocket.send('{"recipient": "'+"gandalf"+'"}');
 };
 exampleSocket.onmessage = function (event) {
