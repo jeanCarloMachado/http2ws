@@ -1,13 +1,5 @@
-#!/usr/bin/env sh
+#!/bin/sh
 
-
-# cleanup() {
-#     pkill -f websocket.py
-#     pkill -f webserver.py
-# }
-# trap cleanup EXIT SIGINT SIGTERM
-
+python websocket.py &
 python webserver.py
-#python websocket.py
-
 

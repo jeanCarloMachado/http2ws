@@ -1,11 +1,10 @@
 .PHONY: example
-all: serve
+all: example
 
-serve:
-	./main.sh
-
-example:
-	cd example ; python -m http.server 8001
+example: clean
+	python webserver.py &
+	python websocket.py &
+	cd example ; python -m http.server 8001 &
 	${BROWSER} http://localhost:8001
 
 container_build:
@@ -14,5 +13,6 @@ deploy:
 	docker push compufour/hooks
 
 clean:
-	pkill -f 'http.server 8001'
-
+	-pkill -f websocket.py
+	-pkill -f webserver.py
+	-pkill -f "http.server 8001" || true
