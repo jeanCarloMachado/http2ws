@@ -1,5 +1,5 @@
 #!/bin/sh
 
-python websocket.py &
-python webserver.py
+DEBUG=1 python websocket.py 1>&2 &
+DEBUG=1 python webserver.py 1>&2
 

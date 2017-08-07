@@ -12,7 +12,7 @@ def hello_world():
 @app.route('/send', methods=['POST'])
 def register():
     fifo = open(named_pipe_path, 'w', 1)
-    fifo.write(json.dumps(request.json))
+    fifo.write(json.dumps(request.json)+"\n")
     fifo.flush()
     fifo.close()
     return '{"status": "Ok"}'

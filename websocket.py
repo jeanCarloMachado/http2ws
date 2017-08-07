@@ -9,7 +9,11 @@ from queue import Queue
 import json
 import time
 
-debug_mode = (os.getenv('debug') is not None) or False
+debug_mode = (os.getenv('DEBUG') is not None) or False
+if debug_mode:
+    print ("Debug mode is ON")
+else:
+    print ("Debug mode is Off")
 
 if not os.path.exists(named_pipe_path):
     try:
@@ -43,8 +47,10 @@ async def connectionHandler(websocket, path):
 
 def read_file_callback():
     time.sleep(0.2)
-    tmp = fifo.read()
+    tmp = fifo.readline()
     if tmp != "":
+        if debug_mode:
+            print("Received data: "+tmp)
         data = json.loads(tmp)
         my_queue.put(data)
 

@@ -3,7 +3,7 @@ all: example
 
 example: clean
 	python webserver.py &
-	python websocket.py &
+	DEBUG=1 python websocket.py &
 	cd example ; python -m http.server 8001 &
 	${BROWSER} http://localhost:8001
 
