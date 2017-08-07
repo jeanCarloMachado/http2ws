@@ -3,7 +3,7 @@ import websockets
 import sys
 import os, tempfile
 from signal import *
-from config import named_pipe_path, websocket_port, websocket_host, debug_mode, use_ssl, cert_file, key_file
+from config import named_pipe_path, websocket_port, websocket_host, debug_mode, use_ssl, cert_file, key_file, refresh_rate
 import threading
 from queue import Queue
 import json
@@ -42,7 +42,7 @@ async def connectionHandler(websocket, path):
     decoded_message = json.loads(message)
     identified_map[decoded_message['recipient']] =  connected_list.index(websocket)
     if debug_mode:
-        print ("Add to connected  list index: " + str(connected_list.index(websocket)) + " litening to recipient: " + decoded_message['recipient']) 
+        print ("Add to connected  list index: " + str(connected_list.index(websocket)) + " litening to recipient: " + decoded_message['recipient'])
     try:
         await asyncio.sleep(3600 * 24)
     finally:
@@ -50,7 +50,7 @@ async def connectionHandler(websocket, path):
 
 
 def read_file_callback():
-    time.sleep(0.2)
+    time.sleep(refresh_rate)
     tmp = fifo.readline()
     if tmp != "":
         if debug_mode:
