@@ -9,9 +9,10 @@ example:
 	${BROWSER} http://localhost:8001
 
 container_build:
-	docker build . -t compufour/hooks
+	docker build . -t http2ws
 deploy:
 	docker push compufour/hooks
 
 clean:
 	pkill -f 'http.server 8001'
+
