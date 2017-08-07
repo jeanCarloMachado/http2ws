@@ -26,6 +26,7 @@ exampleSocket.onmessage = function (event) {
 
 ## Configuring
 
+
 By default the webserver port is 5000  and websocket port is 8765
 you can change it by setting the following variables
 
@@ -35,11 +36,18 @@ HTTP2WS_WEBSOCKET_PORT=8764 python websocket.py
 HTTP2WS_WEBSOCKET_HOST=172.17.0.1
 ```
 
+## SSL
+
+Set the following variables if you want to use ssl
+
+```sh
+HTTP2WS_SSL_CERT=/tmp/hmg/file.cert HTTP2WS_SSL_KEY=/tmp/hmg/file_key.cert python websocket.py
+
+```
 ## Container
 
 ```sh
 docker run -p 5000:5000 -p 8765:8765 http2ws:latest
-
 ```
 
 ## License

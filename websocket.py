@@ -3,17 +3,21 @@ import websockets
 import sys
 import os, tempfile
 from signal import *
-from config import named_pipe_path, websocket_port, websocket_host
+from config import named_pipe_path, websocket_port, websocket_host, debug_mode, use_ssl, cert_file, key_file
 import threading
 from queue import Queue
 import json
 import time
+import ssl
 
-debug_mode = (os.getenv('DEBUG') is not None) or False
 if debug_mode:
     print ("Debug mode is ON")
 else:
     print ("Debug mode is Off")
+
+if debug_mode:
+    print ("cert_file "+cert_file)
+    print ("key_file "+key_file)
 
 if not os.path.exists(named_pipe_path):
     try:
@@ -76,7 +80,14 @@ async def send_messages():
 
 def websocket_thread():
     second_loop = asyncio.new_event_loop()
-    start_server = websockets.serve(connectionHandler, websocket_host, websocket_port)
+    if use_ssl:
+        ctx = ssl.SSLContext( ssl.PROTOCOL_SSLv23)
+        ctx.load_cert_chain(cert_file, key_file)
+        start_server = websockets.serve(connectionHandler, websocket_host, websocket_port, ssl=ctx)
+    else:
+        start_server = websockets.serve(connectionHandler, websocket_host, websocket_port)
+
+
     second_loop.run_until_complete(start_server)
     second_loop.run_forever()
     return
