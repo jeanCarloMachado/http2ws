@@ -8,7 +8,7 @@
 </body>
 <script>
 //var exampleSocket = new WebSocket("wss://homolog.compufacil.com.br:8765");
-var exampleSocket = new WebSocket("ws://app.compufacil.dev:8765");
+var exampleSocket = new WebSocket("ws://localhost:8765");
 exampleSocket.onopen = function (event) {
     console.log('opened')
     var url = new URL(document.URL);

@@ -9,7 +9,7 @@ example: clean
 	${BROWSER} http://localhost:8001
 
 container_build:
-	docker build . -t jeancarlomachado/http2ws
+	docker build . -t jeancarlomachado/http2ws -t http2ws
 deploy: container_build
 	docker push jeancarlomachado/http2ws
 clean:

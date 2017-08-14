@@ -111,6 +111,9 @@ fifo = open(named_pipe_path, 'r', 1)
 loop.add_reader(fifo.fileno(), read_file_callback)
 loop.run_forever()
 
+if debug_mode:
+    print  ("Exiting")
+
 def clean(*args):
     os.remove(named_pipe_path)
     sys.exit(0)
