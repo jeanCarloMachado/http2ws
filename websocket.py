@@ -38,14 +38,20 @@ async def connectionHandler(websocket, path):
 
     connected_list.append(websocket)
 
-    message = await websocket.recv()
+    try:
+        message = await websocket.recv()
+    except:
+        connected_list.remove(websocket)
+
     decoded_message = json.loads(message)
     identified_map[decoded_message['recipient']] =  connected_list.index(websocket)
+
     if debug_mode:
         print ("Add to connected  list index: " + str(connected_list.index(websocket)) + " litening to recipient: " + decoded_message['recipient'])
+
     try:
         await asyncio.sleep(3600 * 24)
-    finally:
+    except:
         connected_list.remove(websocket)
 
 

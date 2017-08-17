@@ -8,8 +8,6 @@ A simple and fast message subscription system that pushes messages in http and d
 curl -X POST http://localhost:5001/send -H "Content-Type: application/json" -d '{"recipient":"gandalf","content":"my_message"}'
 
 ```
-
-
 ## Consume the message
 
 ```sh
