@@ -27,8 +27,11 @@ if not os.path.exists(named_pipe_path):
             raise
 
 
+# queue of messages to be delivered
 my_queue = Queue(maxsize=0)
+# list of connected clients on ws
 connected_list = []
+# list of authenticated clients
 identified_map = dict()
 
 
