@@ -11,9 +11,7 @@ import time
 import ssl
 
 if debug_mode:
-    print ("Debug mode is ON")
-else:
-    print ("Debug mode is Off")
+    print ("Websocket CLI Debug mode is ON")
 
 if debug_mode:
     print ("cert_file "+cert_file)
