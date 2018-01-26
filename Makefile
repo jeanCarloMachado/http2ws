@@ -1,10 +1,11 @@
 .PHONY: example
 all: example
 
+clean:
+	./clean.sh
+
 example: clean
-	python webserver.py &
-	DEBUG=1 python websocket.py &
-	#DEBUG=1 HTTP2WS_SSL_CERT=/tmp/hmg/file.cert HTTP2WS_SSL_KEY=/tmp/hmg/file_key.cert python websocket.py &
+	debug=1 ./main.sh
 	cd example ; python -m http.server 8001 &
 	${BROWSER} http://localhost:8001
 

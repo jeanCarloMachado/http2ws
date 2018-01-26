@@ -1,13 +1,17 @@
 #!/bin/sh
 
-ps -ax | egrep "webserver\.py|websocket\.py"  | cut -d ' ' -f1 | xargs kill -9
+rm -rf /tmp/http2ws_sock || true
+
+DEBUG=1 python websocket.py &
+pidWebsocket=$!
+sleep 2
 
 DEBUG=1 python webserver.py &
 pidWebserver=$!
-DEBUG=1 python websocket.py &
-pidWebsocket=$!
+sleep 2
 
 echo "pidWebserver: $pidWebserver"
 echo "pidWebsocket: $pidWebsocket"
 
 tail -f /tmp/http2ws_sock
+
