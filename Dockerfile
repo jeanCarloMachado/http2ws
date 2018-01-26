@@ -8,7 +8,7 @@ ADD webserver.py /webserver.py
 ADD main.sh /main.sh
 WORKDIR /
 
-EXPOSE 5000
+EXPOSE 5001
 EXPOSE 8765
 
 ENTRYPOINT ./main.sh

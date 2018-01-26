@@ -29,8 +29,8 @@ By default the webserver port is 5000  and websocket port is 8765
 you can change it by setting the following variables
 
 ```sh
-HTTP2WS_WEBSERVER_PORT=5001 python webserver.py
-HTTP2WS_WEBSOCKET_PORT=8764 python websocket.py
+HTTP2WS_WEBSERVER_PORT=5001
+HTTP2WS_WEBSOCKET_PORT=8764
 HTTP2WS_WEBSOCKET_HOST=172.17.0.1
 ```
 
