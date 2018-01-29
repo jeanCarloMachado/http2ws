@@ -17,16 +17,15 @@ if debug_mode:
     print ("cert_file "+cert_file)
     print ("key_file "+key_file)
 
-if not os.path.exists(named_pipe_path):
-    try:
-        if debug_mode:
-            print("creating fifo")
-        os.mkfifo(named_pipe_path)
-        if debug_mode:
-            print("fifo created")
-    except OSError as oe:
-        if oe.errno != errno.EEXIST:
-            raise
+try:
+    if debug_mode:
+        print("creating fifo")
+    os.mkfifo(named_pipe_path)
+    if debug_mode:
+        print("fifo created")
+except OSError as oe:
+    if oe.errno != errno.EEXIST:
+        raise
 
 
 # queue of messages to be delivered

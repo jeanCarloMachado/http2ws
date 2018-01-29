@@ -7,7 +7,7 @@ app.debug=True
 
 @app.route('/')
 def hello_world():
-    return 'Hello http2ws'
+    return 'Hello, http2ws server here'
 
 @app.route('/send', methods=['POST'])
 def register():

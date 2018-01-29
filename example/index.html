@@ -10,19 +10,20 @@
 //var exampleSocket = new WebSocket("wss://homolog.compufacil.com.br:8765");
 var exampleSocket = new WebSocket("ws://localhost:8765");
 exampleSocket.onopen = function (event) {
-    console.log('opened')
+    console.log('opened socket connection')
     var url = new URL(document.URL);
     recipient = url.searchParams.get("recipient");
 
     recipient = recipient || 'gandalf'
 
-    console.log(recipient)
+    console.log("Recipient: " + recipient)
 
     exampleSocket.send('{"recipient": "'+recipient+'"}');
 };
 exampleSocket.onmessage = function (event) {
-  console.log(event.data)
+  console.log("Message received:", event.data)
 }
 </script>
+<h4> Open the console to see the example </h2>
 </html>
 

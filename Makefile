@@ -4,10 +4,14 @@ all: example
 clean:
 	./clean.sh
 
-example: clean
-	debug=1 ./main.sh
-	cd example ; python -m http.server 8001 &
+serve: clean
+	debug=1 ./main.sh &
+
+browseExample:
 	${BROWSER} http://localhost:8001
+
+example: serve browseExample
+	cd example ; python -m http.server 8001 &
 
 build:
 	docker build . -t jeancarlomachado/http2ws -t http2ws

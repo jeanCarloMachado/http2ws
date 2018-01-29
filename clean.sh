@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
-ps -ax | egrep "webserver\.py|websocket\.py"  | cut -d ' ' -f1 | xargs kill -9 
+pkill -f http.server
+pkill -f websocket.py
+pkill -f webserver.py
+pkill -f main.sh
+
+rm -rf /tmp/http2ws_sock
 
 exit 0
